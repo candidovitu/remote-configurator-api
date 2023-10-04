@@ -9,9 +9,11 @@ import { WebSocketEntity } from '../../../../entities/WebSocketEntity';
 export class ConnectConfigWsUseCase implements UseCase {
     constructor() {}
 
-    handle = async (namespace: string, ws: WebSocketEntity): Promise<UseCaseResponse> => {
+    handle = async (namespace: string, key: string, ws: WebSocketEntity): Promise<UseCaseResponse> => {
         try {
-            appendWsConnection(namespace, ws);
+            const webSocketChannel = `config_${namespace}_${key}`;
+
+            appendWsConnection(webSocketChannel, ws);
             
             return { success: true };
         } catch (err: any) {

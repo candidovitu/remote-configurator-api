@@ -19,7 +19,7 @@ import { WebSocketEntity } from '../entities/WebSocketEntity';
 
 const route = Router();
 
-route.ws('/:namespace', CredentialMiddleware, (ws, req) => {
+route.ws('/:namespace/:key', CredentialMiddleware, (ws, req) => {
     const webSocketEntity = (ws as WebSocketEntity);
 
     connectConfigWsController.handle(webSocketEntity, req);

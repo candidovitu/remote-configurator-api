@@ -16,10 +16,10 @@ export class ConnectConfigWsController implements WsController {
 	constructor(private connectWsApiUseCase: ConnectConfigWsUseCase) {}
 
     public handle = async (ws: WebSocketEntity, req: Request) => {
-        const { namespace } = req.params;
+        const { namespace, key } = req.params;
         const { credential } = req;
 
-        const useCaseResponse = await this.connectWsApiUseCase.handle(namespace, ws);
+        const useCaseResponse = await this.connectWsApiUseCase.handle(namespace, key, ws);
         
         if(useCaseResponse.success) {
             log.info(`Connected client (accessKey: ${credential.accessKey})`);
