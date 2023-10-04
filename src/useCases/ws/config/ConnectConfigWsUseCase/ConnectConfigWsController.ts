@@ -23,7 +23,6 @@ export class ConnectConfigWsController implements WsController {
         
         if(useCaseResponse.success) {
             log.info(`Connected client (accessKey: ${credential.accessKey})`);
-            ws.send(JSON.stringify({ message: 'Successfully connected' }));
         } else {
             ws.close(1011, JSON.stringify({ message: 'failed to connect on config ws', errors: useCaseResponse.errors }));
         }
