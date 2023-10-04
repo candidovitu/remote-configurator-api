@@ -4,19 +4,19 @@ import { WsConnections } from "../interface/DataInterface";
 
 let connections: WsConnections = {};
 
-export const appendWsConnection = (namespace: string, ws: WebSocketEntity) => {
-    if(!connections[namespace]) connections[namespace] = [];
-    connections[namespace].push(ws);
+export const appendWsConnection = (channel: string, ws: WebSocketEntity) => {
+    if(!connections[channel]) connections[channel] = [];
+    connections[channel].push(ws);
 }
 
-export const removeWsConnection = (namespace: string, ws: WebSocketEntity) => {
-    const clientIndex = connections[namespace].findIndex(client => client == ws);
-    connections[namespace].splice(clientIndex, 1);
+export const removeWsConnection = (channel: string, ws: WebSocketEntity) => {
+    const clientIndex = connections[channel].findIndex(client => client == ws);
+    connections[channel].splice(clientIndex, 1);
 }
 
-export const broadcastNamespace = (namespace: string, data: Object) => {
-    const namespaceConnections = connections[namespace] ?? [];
-    namespaceConnections.forEach(client => client.send(JSON.stringify(data)));
+export const broadcastNamespace = (channel: string, data: Object) => {
+    const channelConnections = connections[channel] ?? [];
+    channelConnections.forEach(client => client.send(JSON.stringify(data)));
 }
 
 export const findClientsByAccessKey = (accessKey: string): WebSocketEntity[] => {
