@@ -14,9 +14,11 @@ import { ConfigEntity } from '../ConfigEntity';
     }
 
     broadcast(): void {
-        broadcastNamespace(this.config.namespace, {
+        const webSocketChannel = `config_${this.config.namespace}_${this.config.key}`;
+
+        broadcastNamespace(webSocketChannel, {
             type: this.eventType,
-            data: this.config
+            config: this.config
         });
     }
 
