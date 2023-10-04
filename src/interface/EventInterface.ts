@@ -1,0 +1,3 @@
+export enum CONFIG_EVENT_TYPES {
+    UPDATE = 'CONFIG_UPDATE'
+}

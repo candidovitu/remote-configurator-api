@@ -1,0 +1,14 @@
+{
+    "watch": [
+        "*.ts",
+        "*.js"
+    ],
+    "ignore": [
+        "dist/**/*"
+    ],
+    "exec": "ts-node src/index.ts || exit 1",
+    "ext": "ts,json,ts,.env,js",
+    "env": {
+        "NODE_ENV": "dev"
+    }
+}
