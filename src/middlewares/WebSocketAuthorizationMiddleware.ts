@@ -9,20 +9,29 @@ import { WebSocketEntity } from '../entities/WebSocketEntity';
 import { CredentialModel } from '../models/CredentialModel';
 
 const log = logger.child({
-    module: 'CredentialMiddleware'
+    module: 'WebSocketAuthorizationMiddleware'
 });
 
 const credentialRepository = dataSource.getRepository(CredentialModel);
 
-const CredentialMiddleware = async (ws: WebSocketEntity, req: Request, next: NextFunction) => {
+const WebSocketAuthorizationMiddleware = async (ws: WebSocketEntity, req: Request, next: NextFunction) => {
     try {
-        const {
-            accesskey: accessKey,
-            secretkey: secretKey            
-        } = req.headers;
+        const { authorization } = req.headers;
+        if(!authorization) return ws.close(1000, 'Missing authorization header');
+    
+        const authorizationParts = authorization.split(' ');
+        if(authorizationParts.length < 2) return ws.close(1000, 'Invalid authorization data');
 
-        if(!accessKey || !secretKey) return ws.close(1000, 'Missing accesskey or secretkey headers');
-        
+        const rawCredential = authorizationParts[1];
+
+        const mountedCredential = Buffer.from(rawCredential, 'base64').toString('utf-8');
+
+        const credentialParts = mountedCredential.split(':');
+        if(credentialParts.length < 2) return ws.close(1000, 'Invalid authorization credential value format');
+
+        const accessKey = credentialParts[0];
+        const secretKey = credentialParts[1];
+
         const foundCredential = await credentialRepository.findOneBy({ accessKey: String(accessKey) });
         if(!foundCredential) return ws.close(1000, 'Credential not found')
         
@@ -44,4 +53,4 @@ const CredentialMiddleware = async (ws: WebSocketEntity, req: Request, next: Nex
     }
 }
 
-export default CredentialMiddleware;
+export default WebSocketAuthorizationMiddleware;

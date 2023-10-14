@@ -7,7 +7,7 @@ import { updateCredentialApiController } from '../useCases/api/credential/Update
 import { deleteCredentialApiController } from '../useCases/api/credential/DeleteCredentialApiUseCase';
 
 import SchemaValidationMiddleware from '../middlewares/SchemaValidationMiddleware';
-import UserSessionMiddleware from '../middlewares/UserSessionMiddleware';
+import UserSessionMiddleware from '../middlewares/HttpAuthorizationMiddleware';
 
 import { createCredentialValidator } from '../validators/CredentialValidator';
 

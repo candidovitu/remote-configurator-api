@@ -7,7 +7,7 @@ import { updateNamespaceApiController } from '../useCases/api/namespace/UpdateNa
 import { deleteNamespaceApiController } from '../useCases/api/namespace/DeleteNamespaceApiUseCase';
 
 import SchemaValidationMiddleware from '../middlewares/SchemaValidationMiddleware';
-import UserSessionMiddleware from '../middlewares/UserSessionMiddleware';
+import UserSessionMiddleware from '../middlewares/HttpAuthorizationMiddleware';
 
 import { createNamespaceValidator } from '../validators/NamespaceValidator';
 

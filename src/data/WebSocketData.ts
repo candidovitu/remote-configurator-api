@@ -10,8 +10,10 @@ export const appendWsConnection = (channel: string, ws: WebSocketEntity) => {
 }
 
 export const removeWsConnection = (channel: string, ws: WebSocketEntity) => {
-    const clientIndex = connections[channel].findIndex(client => client == ws);
-    connections[channel].splice(clientIndex, 1);
+    if(connections[channel]) {
+        const clientIndex = connections[channel].findIndex(client => client == ws);
+        connections[channel].splice(clientIndex, 1);
+    }
 }
 
 export const broadcastNamespace = (channel: string, data: Object) => {

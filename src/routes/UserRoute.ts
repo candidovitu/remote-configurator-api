@@ -9,7 +9,7 @@ import { deleteUserApiController } from '../useCases/api/user/DeleteUserApiUseCa
 import { validateUserApiController } from '../useCases/api/user/ValidateUserApiUseCase';
 
 import SchemaValidationMiddleware from '../middlewares/SchemaValidationMiddleware';
-import UserSessionMiddleware from '../middlewares/UserSessionMiddleware';
+import UserSessionMiddleware from '../middlewares/HttpAuthorizationMiddleware';
 
 import { createUserValidator, updateUserValidator, updateUserPasswordValidator, authValidateUserValidator } from '../validators/UserValidator';
 

@@ -10,8 +10,8 @@ import { connectConfigWsController } from '../useCases/ws/config/ConnectConfigWs
 import { disconnectConfigWsController } from '../useCases/ws/config/DisconnectConfigWsUseCase';
 
 import SchemaValidationMiddleware from '../middlewares/SchemaValidationMiddleware';
-import UserSessionMiddleware from '../middlewares/UserSessionMiddleware';
-import CredentialMiddleware from '../middlewares/CredentialMiddleware';
+import HttpAuthorizationMiddleware from '../middlewares/HttpAuthorizationMiddleware';
+import WebSocketAuthorizationMiddleware from '../middlewares/WebSocketAuthorizationMiddleware';
 
 import { createConfigValidator } from '../validators/ConfigValidator';
 
@@ -19,14 +19,14 @@ import { WebSocketEntity } from '../entities/WebSocketEntity';
 
 const route = Router();
 
-route.ws('/:namespace/:key', CredentialMiddleware, (ws, req) => {
+route.ws('/:namespace/:key', WebSocketAuthorizationMiddleware, (ws, req) => {
     const webSocketEntity = (ws as WebSocketEntity);
 
     connectConfigWsController.handle(webSocketEntity, req);
     ws.on('close', () => disconnectConfigWsController.handle(webSocketEntity, req));
 });
 
-route.use(UserSessionMiddleware);
+route.use(HttpAuthorizationMiddleware);
 
 route.get('/list/:namespace', listConfigApiController.handle);
 route.get('/:namespace/:key', getConfigApiController.handle);
